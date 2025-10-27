@@ -6,5 +6,5 @@ public class Administrador extends Usuario {
         super(cedula, password, nombreCompleto);
         
     }
-    
+
 }

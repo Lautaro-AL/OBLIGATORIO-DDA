@@ -6,12 +6,12 @@ public class DatosPrueba {
         Fachada fachada = Fachada.getInstancia();
 
         // Administradores
-        fachada.agregarAdministrador("admin1", "Admin123!", "Juan Pérez");
-        fachada.agregarAdministrador("admin2", "Admin456!", "María González");
+        fachada.agregarAdministrador("a", "a", "Juan Pérez");
+        fachada.agregarAdministrador("a2", "a2", "María González");
 
         // Propietarios
-        fachada.agregarUsuarioPropietario("prop1", "Prop123!", "Carlos López");
-        fachada.agregarUsuarioPropietario("prop2", "Prop456!", "Ana Martínez");
+        fachada.agregarUsuarioPropietario("b", "b", "Carlos López");
+        fachada.agregarUsuarioPropietario("c", "c", "Ana Martínez");
 
         // Casos especiales para testing
         fachada.agregarAdministrador("test", "", "Usuario Test Vacío"); // Contraseña vacía

@@ -25,7 +25,7 @@ public class ControladorLogin {
 
         // guardo la sesion de la logica en la sesionHttp
         sesionHttp.setAttribute("usuarioPropietario", sesion);
-        return Respuesta.lista(new Respuesta("loginExitoso", "loginPropietario.html"));// completar html menu
+        return Respuesta.lista(new Respuesta("loginExitoso", ""));// completar html al menu
     }
 
     @PostMapping("/loginAdmin")

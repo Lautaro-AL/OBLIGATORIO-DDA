@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Admin</title>
+    <link rel="stylesheet" href="login.css" />
+    <script src="vistaWeb.js"></script>
+  </head>
+  <body>
+    <script src="utilesVista.js"></script>
+    <div class="login-container">
+      <h2 id="titulo"></h2>
+      <form
+        id="formLogin"
+        action="/login"
+        method="post"
+        onsubmit="handleLogin(event)"
+      >
+        <div class="input-group">
+          <label for="username">Usuario</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+        <div class="input-group">
+          <label for="password">Contraseña</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit">Entrar</button>
+      </form>
+    </div>
+  </body>
+  <script>
+    const TITULO_PAGINA = "*** Administracion ***";
+    const URL_SUBMIT = "acceso/loginAdmin";
+
+    // Configurar el título cuando se carga la página
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("titulo").textContent = TITULO_PAGINA;
+    });
+
+    function handleLogin(event) {
+      event.preventDefault();
+      submit(URL_SUBMIT, serializarFormulario("formLogin"));
+    }
+
+    //La respuesta correcta del submit tiene la url de la vista siguiente
+    function mostrar_loginExitoso(urlDestino) {
+      window.location.href = urlDestino;
+    }
+    async function excepcionDeAplicacion(text) {
+      await mostrarMensaje(text);
+    }
+  </script>
+</html>

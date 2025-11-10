@@ -1,11 +1,21 @@
 package dda.SistemaPeajes.modelo;
 
-public class Trabajadores extends Bonificacion {
+import java.sql.Date;
+import java.time.DayOfWeek;
 
+public class Trabajadores extends Bonificacion {
+ 
+    public Trabajadores() {
+        super("Trabajadores");
+    }
     @Override
-    public void aplicarDescuento() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'aplicarDescuento'");
+    public double aplicarDescuento(Transito t) {
+        Date dia = t.getFecha();
+        DayOfWeek dayOfWeek = dia.toLocalDate().getDayOfWeek();
+        if(dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
+            return t.getMonto() * 0.8;
+        }
+        return 0;
     }
     
 }

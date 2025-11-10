@@ -2,9 +2,12 @@ package dda.SistemaPeajes.modelo;
 
 public class Frecuentes extends Bonificacion {
 
+   public Frecuentes() {
+       super("Frecuentes");
+   }
     @Override
-    public void aplicarDescuento() {
-        // TODO Auto-generated method stub
+    public double aplicarDescuento(Transito transito) {
+        
         throw new UnsupportedOperationException("Unimplemented method 'aplicarDescuento'");
     }
     

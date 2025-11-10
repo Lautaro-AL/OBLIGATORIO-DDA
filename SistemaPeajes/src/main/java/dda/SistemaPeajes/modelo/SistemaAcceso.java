@@ -2,28 +2,29 @@ package dda.SistemaPeajes.modelo;
 
 import java.util.ArrayList;
 
+import dda.SistemaPeajes.UsuarioException;
+
 public class SistemaAcceso {
-    private ArrayList<UsuarioPropetario> usuariosPropetarios = new ArrayList();
+    private ArrayList<Propietario> propietarios = new ArrayList<>();
     private ArrayList<Administrador> administradores = new ArrayList();
     private ArrayList<Sesion> sesiones = new ArrayList();
 
-    public void agregarUsuarioPropietario(String cedula, String password, String nombreCompleto) {
-        usuariosPropetarios.add(new UsuarioPropetario(cedula, password, nombreCompleto));
+    public void agregarUsuarioPropietario(String cedula, String password, String nombreCompleto, int saldoActual,
+            int saldoAlerta) {
+        propietarios.add(new Propietario(cedula, password, nombreCompleto, saldoActual, saldoAlerta, null, null, null));
     }
 
     public void agregarAdministrador(String cedula, String password, String nombreCompleto) {
         administradores.add(new Administrador(cedula, password, nombreCompleto));
     }
 
-    public Sesion loginPropetario(String cedula, String password) throws PeajeException {
-        Sesion sesion = null;
-        UsuarioPropetario user = (UsuarioPropetario) Login(cedula, password, usuariosPropetarios);
-        if (user != null) {
-            sesion = new Sesion(user);
-            sesiones.add(sesion);
-            return sesion;
-        }
-        throw new PeajeException("Usuario o contraseña incorrectos");
+    public ArrayList<Propietario> getPropietarios() {
+        return propietarios;
+    }
+
+    public Propietario loginPropetario(String cedula, String password) throws PeajeException {
+        Propietario user = (Propietario) Login(cedula, password, propietarios);
+        return user;
     }
 
     public Administrador loginAdministrador(String cedula, String password) throws PeajeException {
@@ -41,7 +42,7 @@ public class SistemaAcceso {
                 return usuario;
             }
         }
-        return null;
+        throw new UsuarioException("Usuario o contraseña incorrectos");
     }
 
     public ArrayList<Sesion> getSesiones() {

@@ -6,12 +6,16 @@ public class Transito {
     private Date fecha;
     private Vehiculo vehiculo;
     private PuestoPeaje puestoPeaje;
+    private Tarifa tarifa;
+    private double monto;
 
     
-    public Transito(Date fecha, Vehiculo vehiculo, PuestoPeaje puestoPeaje) {
+    public Transito(Date fecha, Vehiculo vehiculo, PuestoPeaje puestoPeaje ,Tarifa tarifa) {
         this.fecha = fecha;
         this.vehiculo = vehiculo;
         this.puestoPeaje = puestoPeaje;
+        this.tarifa = tarifa ;
+        this.monto = tarifa.getMonto();
     }
     
     public Date getFecha() {
@@ -23,6 +27,14 @@ public class Transito {
     public Vehiculo getVehiculo() {
         return vehiculo;
     }
+    public double getMonto() {
+        return monto;
+    }
+
+    public void setMonto(double monto) {
+        this.monto = monto;
+    }
+
     public void setVehiculo(Vehiculo vehiculo) {
         this.vehiculo = vehiculo;
     }
@@ -32,5 +44,13 @@ public class Transito {
     public void setPuestoPeaje(PuestoPeaje puestoPeaje) {
         this.puestoPeaje = puestoPeaje;
     }
+    public Tarifa getTarifa() {
+        return tarifa;
+    }
+    public void setTarifa(Tarifa tarifa) {
+        this.tarifa = tarifa;
+    }
+
+    
     
 }

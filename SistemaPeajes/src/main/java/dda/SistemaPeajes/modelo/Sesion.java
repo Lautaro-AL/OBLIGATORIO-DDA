@@ -3,14 +3,14 @@ package dda.SistemaPeajes.modelo;
 import java.util.Date;
 
 public class Sesion {
-    private UsuarioPropetario usuario;
+    private Propietario usuario;
     private Date fechaInicio = new Date();
 
-    public Sesion(UsuarioPropetario usuario) {
+    public Sesion(Propietario usuario) {
         this.usuario = usuario;
     }
 
-    public UsuarioPropetario getUsuario() {
+    public Propietario getUsuario() {
         return usuario;
     }
 

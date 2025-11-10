@@ -1,11 +1,13 @@
 package dda.SistemaPeajes.modelo;
 
 public class Exonerados extends Bonificacion {
-
+    
+    public Exonerados() {
+        super("Exonerados");
+    }
     @Override
-    public void aplicarDescuento() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'aplicarDescuento'");
+    public double aplicarDescuento(Transito t) {
+        return t.getMonto(); // No se aplica descuento, en los exonerados
     }
     
 }

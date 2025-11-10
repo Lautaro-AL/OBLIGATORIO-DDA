@@ -3,17 +3,30 @@ package dda.SistemaPeajes.modelo;
 import java.sql.Date;
 
 public class Asignacion {
-    private Date fecha;
+    private Bonificacion bonificacion;    // Ej: BonificacionFrecuente
+    private PuestoPeaje puesto;           // Puesto al que aplica
+    private Date fechaAsignada;  // Fecha de asignación
 
-    public Asignacion(Date fecha) {
-        this.fecha = fecha;
+    public Asignacion(Bonificacion bonificacion, PuestoPeaje puesto, Date fechaAsignada) {
+        this.bonificacion = bonificacion;
+        this.puesto = puesto;
+        this.fechaAsignada = fechaAsignada;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Bonificacion getBonificacion() {
+        return bonificacion;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public PuestoPeaje getPuesto() {
+        return puesto;
+    }
+
+    public Date getFechaAsignada() {
+        return fechaAsignada;
+    }
+
+   
+    public double calcularDescuento(Transito t) {
+        return bonificacion.aplicarDescuento(t);
     }
 }

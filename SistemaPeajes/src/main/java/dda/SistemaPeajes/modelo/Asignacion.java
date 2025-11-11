@@ -27,6 +27,6 @@ public class Asignacion {
 
    
     public double calcularDescuento(Transito t) {
-        return bonificacion.aplicarDescuento(t);
+        return bonificacion.aplicarDescuento(t, puesto);
     }
 }

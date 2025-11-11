@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="tablero.css" />
+  <title>Tablero de control del propietario</title>
+
+  <script src="vistaWeb.js"></script>
+</head>
+
+<body>
+  <script src="utilesVista.js"></script>
+  <div class="container">
+    <h1>Tablero de control del propietario</h1>
+
+    <div class="section summary">
+      <div>
+        <label>Nombre completo:</label>
+        <p id="nombreCompleto"></p>
+      </div>
+      <div>
+        <label>Estado:</label>
+        <p id="estado"></p>
+      </div>
+      <div>
+        <label>Saldo actual:</label>
+        <p id="saldoactual"></p>
+      </div>
+    </div>
+
+    <table id="tablaBonificaciones" class="section">
+      <tbody></tbody>
+    </table>
+    <table id="tablaVehiculos">
+      <tbody></tbody>
+    </table>
+    <table id="tablaTransitos">
+      <tbody></tbody>
+    </table>
+    <table id="tablaNotificaciones">
+      <tbody></tbody>
+    </table>
+    <div class="notifications">
+      <button id="btnBorrarNotificaciones" class="btn-borrar" onclick="borrarNotificaciones()">
+        Borrar notificaciones
+      </button>
+    </div>
+  </div>
+  </div>
+  <script>
+    const URL_TABLERO = "/tablero";
+    const URL_BORRAR_NOTIF = "/tablero/borrarNotificaciones";
+    document.addEventListener("DOMContentLoaded", function () {
+      inicializarTablero();
+    });
+
+    function inicializarTablero() {
+      submit(URL_TABLERO + "/vistaConectada", {});
+    }
+
+    function mostrar_nombreCompleto(nombreCompleto) {
+      document.getElementById("nombreCompleto").innerHTML = nombreCompleto;
+    }
+    function mostrar_estado(estado) {
+      document.getElementById("estado").innerHTML = estado;
+    }
+
+    function mostrar_saldoactual(saldoactual) {
+      document.getElementById("saldoactual").innerHTML = saldoactual;
+    }
+
+    function mostrar_vehiculos(vehiculos) {
+      const tbody = document.querySelector("#tablaVehiculos tbody");
+      tbody.innerHTML = "";
+      
+      vehiculos.forEach(v => {
+        const fila = `
+      <tr>
+        <td>${v.matricula}</td>
+        <td>${v.modelo}</td>
+        <td>${v.color}</td>
+        <td>${v.transitos}</td>
+        <td>$ ${v.monto}</td>
+      </tr>`;
+        tbody.innerHTML += fila;
+      });
+    }
+
+    function borrarNotificaciones() {
+      limpiarMensaje();
+      submit(URL_BORRAR_NOTIF, {});
+    }
+
+
+
+
+
+    function borrarNotificaciones() {
+      limpiarMensaje();
+      submit(URL_BORRAR_NOTIF, {});
+    }
+  </script>
+</body>
+
+</html>

@@ -5,15 +5,14 @@ public class Vehiculo {
     private String modelo;
     private String color;
     private Categoria categoria;
+    private Propietario propietario;
 
-    public Vehiculo() {
-    }
-
-    public Vehiculo(String matricula, String modelo, String color, Categoria categoria) {
+    public Vehiculo(String matricula, String modelo, String color, Categoria categoria, Propietario propietario) {
         this.matricula = matricula;
         this.modelo = modelo;
         this.color = color;
         this.categoria = categoria;
+        this.propietario = propietario;
     }
 
     public String getMatricula() {
@@ -46,5 +45,13 @@ public class Vehiculo {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public Propietario getPropietario() {
+        return propietario;
+    }
+
+    public void setPropietario(Propietario propietario) {
+        this.propietario = propietario;
     }
 }

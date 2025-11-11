@@ -1,21 +1,31 @@
 package dda.SistemaPeajes.modelo;
 
-import java.sql.Date;
-import java.time.DayOfWeek;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Trabajadores extends Bonificacion {
- 
+
     public Trabajadores() {
         super("Trabajadores");
     }
+
     @Override
-    public double aplicarDescuento(Transito t) {
-        Date dia = t.getFecha();
-        DayOfWeek dayOfWeek = dia.toLocalDate().getDayOfWeek();
-        if(dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
-            return t.getMonto() * 0.8;
+    public double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado) {
+        if (!transito.getPuestoPeaje().getNombre().equals(puestoAsignado.getNombre())) { // verifica el puesto (por
+                                                                                         // nombre, despues ver si se
+                                                                                         // compara con eso)
+            return transito.getMonto();
         }
-        return 0;
+
+        Date fecha = transito.getFecha();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+        int diaSemana = cal.get(Calendar.DAY_OF_WEEK);
+
+        if (diaSemana >= 2 && diaSemana <= 6) {// entre lunes y viernes
+            return transito.getMonto() * 0.2;
+        }
+
+        return transito.getMonto();
     }
-    
 }

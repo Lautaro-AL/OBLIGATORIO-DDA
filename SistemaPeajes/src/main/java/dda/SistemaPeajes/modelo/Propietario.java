@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Propietario extends Usuario {
-    private int saldoActual;
+    private double saldoActual;
     private int saldoAlerta;
-    private ArrayList<Transito> transitos;
-    private ArrayList<Asignacion> asignaciones;
-    private ArrayList<Vehiculo> vehiculos;
-    private ArrayList<Notificacion> notificaciones;
+    private ArrayList<Transito> transitos = new ArrayList<>();
+    private ArrayList<Asignacion> asignaciones = new ArrayList<>();
+    private ArrayList<Vehiculo> vehiculos = new ArrayList<>();
+    private ArrayList<Notificacion> notificaciones = new ArrayList<>();
     private EstadoPropietario estado = EstadoPropietario.HABILITADO; // por default esta habilitado el estado del
                                                                      // propietario
 
-    public Propietario(String cedula, String password, String nombreCompleto, int saldoActual, int saldoAlerta,
+    public Propietario(String cedula, String password, String nombreCompleto, double saldoActual, int saldoAlerta,
             ArrayList<Transito> transitos, ArrayList<Vehiculo> vehiculos, ArrayList<Notificacion> notificaciones) {
         super(cedula, password, nombreCompleto);
         this.saldoActual = saldoActual;
@@ -63,11 +63,11 @@ public class Propietario extends Usuario {
         return estado.recibeNotificaciones();
     }
 
-    public int getSaldoActual() {
+    public double getSaldoActual() {
         return saldoActual;
     }
 
-    public void setSaldoActual(int saldoActual) {
+    public void setSaldoActual(double saldoActual) {
         this.saldoActual = saldoActual;
     }
 
@@ -93,6 +93,14 @@ public class Propietario extends Usuario {
 
     public void setAsignaciones(ArrayList<Asignacion> asignaciones) {
         this.asignaciones = asignaciones;
+    }
+
+    public void agregarVehiculo(Vehiculo v) throws Exception {
+        if (v.getPropietario() != null) {
+            throw new Exception("El vehículo ya tiene un propietario registrado.");
+        }
+        v.setPropietario(this);
+        vehiculos.add(v);
     }
 
 }

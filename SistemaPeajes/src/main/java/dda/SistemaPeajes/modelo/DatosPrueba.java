@@ -32,6 +32,9 @@ public class DatosPrueba {
         fachada.agregarUsuarioPropietario("34567890", "clave01", "Marcos Varela", 1500, 300);
         fachada.agregarUsuarioPropietario("98765432", "clave02", "Lucía Duarte", 50, 100);
 
+        // Obtener referencias a propietarios recién creados para asignarles vehículos
+        ArrayList<Propietario> propietarios = fachada.obtenerPropietarios();
+
         // ==========================
         // 3) PUESTOS DE PEAJE (aprox. 5)
         // campos: nombre, direccion
@@ -74,34 +77,212 @@ public class DatosPrueba {
         fachada.agregarTarifa(100.0, bus);
         fachada.agregarTarifa(80.0, tractor);
 
-        // tarifas alternativas / variaciones para pruebas
-        fachada.agregarTarifa(55.0, auto);
-        fachada.agregarTarifa(140.0, camion);
-
         // ==========================
         // 6) VEHÍCULOS (aprox. 5)
-        // campos: matricula, modelo, color, categoría
+        // campos: matricula, modelo, color, categoría, propietario
+        // Se asignan a los propietarios cargados
         // ==========================
-        fachada.agregarVehiculo("ABC123", "Toyota Corolla", "Gris", auto);
-        fachada.agregarVehiculo("TRK890", "Volvo FH", "Blanco", camion);
-        fachada.agregarVehiculo("MOTO45", "Yamaha YBR", "Negro", moto);
-        fachada.agregarVehiculo("BUS001", "Mercedes O500", "Azul", bus);
-        fachada.agregarVehiculo("TRAC10", "John Deere", "Verde", tractor);
+
+        // Buscar propietarios por cédula para asignarles vehículos
+        Propietario prop1 = buscarPropietario(propietarios, "b");
+        Propietario prop2 = buscarPropietario(propietarios, "c");
+        Propietario prop3 = buscarPropietario(propietarios, "23456789");
+        Propietario prop4 = buscarPropietario(propietarios, "34567890");
+        Propietario prop5 = buscarPropietario(propietarios, "98765432");
+
+        // Agregar vehículos a los propietarios
+        if (prop1 != null) {
+            fachada.agregarVehiculo("ABC123", "Toyota Corolla", "Gris", auto, prop1);
+        }
+        if (prop1 != null) {
+            fachada.agregarVehiculo("TRK890", "Volvo FH", "Blanco", camion, prop1);
+        }
+        if (prop1 != null) {
+            fachada.agregarVehiculo("MOTO45", "Yamaha YBR", "Negro", moto, prop1);
+        }
+        if (prop4 != null) {
+            fachada.agregarVehiculo("BUS001", "Mercedes O500", "Azul", bus, prop4);
+        }
+        if (prop5 != null) {
+            fachada.agregarVehiculo("TRAC10", "John Deere", "Verde", tractor, prop5);
+        }
 
         // Impresión simple para verificar que propietarios y categorías quedaron
         // cargados
-        System.out.println("Propietarios cargados: " + fachada.obtenerprop().size());
-        System.out.println("Categorias cargadas: " + (categorias != null ? categorias.size() : 0));
+        System.out.println("✓ Datos de prueba cargados exitosamente");
+        System.out.println("  - Administradores: 5");
+        System.out.println("  - Propietarios: " + fachada.obtenerPropietarios().size());
+        System.out.println("  - Puestos de Peaje: " + fachada.getPuestosPeaje().size());
+        System.out.println("  - Categorías: " + (categorias != null ? categorias.size() : 0));
+        System.out.println("  - Vehículos: " + fachada.getTarifas().size() + " tarifas cargadas");
+        System.out.println(" Propietario 1 " + prop1.getVehiculos());
+
+        // Cargar datos de tránsitos de prueba
+        System.out.println("\n--- Cargando tránsitos de prueba ---");
+        cargarTransitos(fachada, propietarios, categorias);
 
     }
 
-    // // Helper local para buscar una categoria por nombre en la lista
+    // Helper local para buscar una categoria por nombre en la lista
     private static Categoria buscarCategoria(ArrayList<Categoria> lista, String nombre) {
         if (lista == null)
             return null;
         for (Categoria c : lista) {
             if (c.getTipo().equalsIgnoreCase(nombre))
                 return c;
+        }
+        return null;
+    }
+
+    // Helper local para buscar un propietario por cédula en la lista
+    private static Propietario buscarPropietario(ArrayList<Propietario> lista, String cedula) {
+        if (lista == null)
+            return null;
+        for (Propietario p : lista) {
+            if (p.getCedula().equals(cedula))
+                return p;
+        }
+        return null;
+    }
+
+    /**
+     * Carga datos de prueba de tránsitos.
+     * Simula el paso de vehículos por puestos de peaje con validación de saldo.
+     */
+    private static void cargarTransitos(Fachada fachada, ArrayList<Propietario> propietarios,
+            ArrayList<Categoria> categorias) {
+        // Obtener referencias necesarias
+        ArrayList<PuestoPeaje> puestos = fachada.getPuestosPeaje();
+        ArrayList<Tarifa> tarifas = fachada.getTarifas();
+        ArrayList<Vehiculo> vehiculos = fachada.getVehiculos();
+
+        if (puestos == null || puestos.isEmpty() || tarifas == null || tarifas.isEmpty()) {
+            System.out.println("⚠ No hay puestos de peaje o tarifas cargados");
+            return;
+        }
+
+        int transitosExitosos = 0;
+        int transitosFallidos = 0;
+
+        // Simular tránsitos de prueba
+        // Propietario 1: Carlos López (saldo 200) - Transita con su Corolla
+        Propietario p1 = buscarPropietario(propietarios, "b");
+        if (p1 != null && p1.getVehiculos() != null && !p1.getVehiculos().isEmpty()) {
+            Vehiculo v1 = p1.getVehiculos().get(0); // Toyota Corolla
+            Tarifa t1 = buscarTarifaPorCategoria(tarifas, v1.getCategoria()); // Tarifa automóvil: 50
+            if (t1 != null) {
+                try {
+                    fachada.registrarTransito(v1, puestos.get(0), t1, p1);
+                    System.out.println("✓ Tránsito 1: " + p1.getNombreCompleto() + " pasó por " + puestos.get(0).getNombre());
+                    transitosExitosos++;
+                } catch (Exception e) {
+                    System.out.println("✗ Tránsito 1 rechazado: " + e.getMessage());
+                    transitosFallidos++;
+                }
+            }
+        }
+
+        // Propietario 2: Ana Martínez (saldo 0) - No puede transitar
+        Propietario p2 = buscarPropietario(propietarios, "c");
+        if (p2 != null && p2.getVehiculos() != null && !p2.getVehiculos().isEmpty()) {
+            Vehiculo v2 = p2.getVehiculos().get(0);
+            Tarifa t2 = buscarTarifaPorCategoria(tarifas, v2.getCategoria());
+            if (t2 != null) {
+                try {
+                    fachada.registrarTransito(v2, puestos.get(1), t2, p2);
+                    System.out.println("✓ Tránsito 2: " + p2.getNombreCompleto() + " pasó por " + puestos.get(1).getNombre());
+                    transitosExitosos++;
+                } catch (Exception e) {
+                    System.out.println("✗ Tránsito rechazado: " + p2.getNombreCompleto()
+                            + " - " + e.getMessage() + " (saldo: " + p2.getSaldoActual() + ")");
+                    transitosFallidos++;
+                }
+            }
+        }
+
+        // Propietario 3: Usuario Propietario (saldo 2000) - Transita 2 veces
+        Propietario p3 = buscarPropietario(propietarios, "23456789");
+        if (p3 != null && p3.getVehiculos() != null && !p3.getVehiculos().isEmpty()) {
+            Vehiculo v3 = p3.getVehiculos().get(0);
+            Tarifa t3 = buscarTarifaPorCategoria(tarifas, v3.getCategoria());
+
+            if (t3 != null) {
+                try {
+                    fachada.registrarTransito(v3, puestos.get(0), t3, p3);
+                    System.out.println("✓ Tránsito 3: " + p3.getNombreCompleto() + " pasó por " + puestos.get(0).getNombre());
+                    transitosExitosos++;
+                } catch (Exception e) {
+                    System.out.println("✗ Tránsito 3 rechazado: " + e.getMessage());
+                    transitosFallidos++;
+                }
+
+                try {
+                    fachada.registrarTransito(v3, puestos.get(2), t3, p3);
+                    System.out.println("✓ Tránsito 4: " + p3.getNombreCompleto() + " pasó por " + puestos.get(2).getNombre());
+                    transitosExitosos++;
+                } catch (Exception e) {
+                    System.out.println("✗ Tránsito 4 rechazado: " + e.getMessage());
+                    transitosFallidos++;
+                }
+            }
+        }
+
+        // Propietario 4: Marcos Varela (saldo 1500) - Transita con su bus
+        Propietario p4 = buscarPropietario(propietarios, "34567890");
+        if (p4 != null && p4.getVehiculos() != null && !p4.getVehiculos().isEmpty()) {
+            Vehiculo v4 = p4.getVehiculos().get(0);
+            Tarifa t4 = buscarTarifaPorCategoria(tarifas, v4.getCategoria());
+            if (t4 != null) {
+                try {
+                    fachada.registrarTransito(v4, puestos.get(3), t4, p4);
+                    System.out.println("✓ Tránsito 5: " + p4.getNombreCompleto() + " pasó por " + puestos.get(3).getNombre());
+                    transitosExitosos++;
+                } catch (Exception e) {
+                    System.out.println("✗ Tránsito 5 rechazado: " + e.getMessage());
+                    transitosFallidos++;
+                }
+            }
+        }
+
+        // Propietario 5: Lucía Duarte (saldo 50) - Saldo bajo, intenta transitar pero falla
+        Propietario p5 = buscarPropietario(propietarios, "98765432");
+        if (p5 != null && p5.getVehiculos() != null && !p5.getVehiculos().isEmpty()) {
+            Vehiculo v5 = p5.getVehiculos().get(0);
+            Tarifa t5 = buscarTarifaPorCategoria(tarifas, v5.getCategoria());
+            if (t5 != null) {
+                try {
+                    fachada.registrarTransito(v5, puestos.get(4), t5, p5);
+                    System.out.println("✓ Tránsito 6: " + p5.getNombreCompleto() + " pasó por " + puestos.get(4).getNombre());
+                    transitosExitosos++;
+                } catch (Exception e) {
+                    System.out.println("✗ Tránsito rechazado: " + p5.getNombreCompleto()
+                            + " - " + e.getMessage() + " (saldo: " + p5.getSaldoActual() + ", monto: " + t5.getMonto() + ")");
+                    transitosFallidos++;
+                }
+            }
+        }
+
+        System.out.println("\n--- Resumen de tránsitos ---");
+        System.out.println("✓ Exitosos: " + transitosExitosos);
+        System.out.println("✗ Rechazados: " + transitosFallidos);
+        
+        // Mostrar saldos finales
+        System.out.println("\n--- Saldos finales ---");
+        for (Propietario p : propietarios) {
+            System.out.println(p.getNombreCompleto() + ": $" + p.getSaldoActual());
+        }
+    }
+
+    /**
+     * Busca una tarifa por categoría (retorna la primera encontrada).
+     */
+    private static Tarifa buscarTarifaPorCategoria(ArrayList<Tarifa> tarifas, Categoria categoria) {
+        if (tarifas == null || categoria == null)
+            return null;
+        for (Tarifa t : tarifas) {
+            if (t.getCategoria().getTipo().equalsIgnoreCase(categoria.getTipo())) {
+                return t;
+            }
         }
         return null;
     }

@@ -1,0 +1,106 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f6f7fb;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+h1 {
+  color: #1d3557;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #457b9d;
+  padding-bottom: 10px;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  background: #f1f3f8;
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.summary div {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary label {
+  font-weight: bold;
+  color: #555;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: white;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+th {
+  background: #e5e9f0;
+  color: #1d3557;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f9fafc;
+}
+
+.notifications {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.btn-borrar {
+  background: #e63946;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-borrar:hover {
+  background: #d62839;
+}
+
+.exit {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.exit a {
+  color: #1d3557;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.exit a:hover {
+  text-decoration: underline;
+}

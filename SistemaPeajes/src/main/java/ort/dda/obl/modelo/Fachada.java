@@ -1,10 +1,12 @@
 package ort.dda.obl.modelo;
+
 import java.util.ArrayList;
 
+import observador.Observable;
 import ort.dda.obl.UsuarioException;
 import ort.dda.obl.SistemaTransitoException;
 
-public class Fachada {
+public class Fachada extends Observable {
     private SistemaAcceso sAcceso = new SistemaAcceso();
     private SistemaTransito sTransito = new SistemaTransito();
     private SistemaVehiculos sVehiculos = new SistemaVehiculos();
@@ -43,6 +45,10 @@ public class Fachada {
 
     public void logout(Administrador s) {
         sAcceso.logout(s);
+    }
+
+    public void borrarNotificacionesPropietario(Propietario propietario) {
+        sAcceso.borrarNotificacionesPropietario(propietario);
     }
 
     // DELEGACIONES SISTEMA TRANSITO

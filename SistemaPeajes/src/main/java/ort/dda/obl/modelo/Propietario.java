@@ -1,9 +1,13 @@
 package ort.dda.obl.modelo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Propietario extends Usuario {
+
+    public enum Eventos {
+        eliminarNotificaciones
+    }
+
     private double saldoActual;
     private int saldoAlerta;
     private ArrayList<Transito> transitos = new ArrayList<>();
@@ -105,6 +109,15 @@ public class Propietario extends Usuario {
 
     public int getCantidadTransitos() {
         return transitos.size();
+    }
+
+    public void borrarNotificaciones() {
+        if (this.notificaciones != null) {
+            this.notificaciones.clear();
+            avisar(Eventos.eliminarNotificaciones);
+        } else {
+            this.notificaciones = new ArrayList<>();
+        }
     }
 
 }

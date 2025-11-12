@@ -22,6 +22,10 @@ public class SistemaAcceso {
         return propietarios;
     }
 
+    public void borrarNotificacionesPropietario(Propietario propietario) {
+        propietario.borrarNotificaciones();
+    }
+
     public Propietario loginPropetario(String cedula, String password) throws UsuarioException {
         Propietario user = (Propietario) Login(cedula, password, propietarios);
         return user;

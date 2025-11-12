@@ -50,7 +50,7 @@
     </div>
   </body>
   <script>
-    const TITULO_PAGINA = "Ingreso a la aplicacion";
+    const TITULO_PAGINA = "Login Propietario";
     const URL_SUBMIT = "/login/loginPropietario";
 
     // Configurar el título cuando se carga la página
@@ -80,11 +80,11 @@
     function mostrar_loginExitoso(urlDestino) {
       window.location.href = urlDestino;
     }
-    
+
     function mostrar_error(mensajeError) {
       mostrarMensajeError(mensajeError);
     }
-    
+
     async function excepcionDeAplicacion(text) {
       mostrarMensajeError(text);
     }

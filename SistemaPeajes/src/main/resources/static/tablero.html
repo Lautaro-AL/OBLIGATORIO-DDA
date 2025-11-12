@@ -86,8 +86,10 @@
   </div>
   </div>
   <script>
-    const URL_TABLERO = "/tablero";
+    urlIniciarVista = "/tablero/vistaConectada";
+    
     const URL_BORRAR_NOTIF = "/tablero/borrarNotificaciones";
+    urlCierreVista = "/tablero/vistaCerrada";
     
     // Función para formatear fechas
     function formatearFecha(fecha) {
@@ -110,15 +112,6 @@
       const año = date.getFullYear();
       return `${dia}/${mes}/${año}`;
     }
-    
-    document.addEventListener("DOMContentLoaded", function () {
-      inicializarTablero();
-    });
-
-    function inicializarTablero() {
-      submit(URL_TABLERO + "/vistaConectada", {});
-    }
-
     function mostrar_nombreCompleto(nombreCompleto) {
       document.getElementById("nombreCompleto").innerHTML = nombreCompleto;
     }
@@ -198,8 +191,7 @@
       }
     }
     function borrarNotificaciones() {
-      limpiarMensaje();
-      submit(URL_BORRAR_NOTIF, {});
+      submit(URL_BORRAR_NOTIF,{});
     }
   </script>
 </body>

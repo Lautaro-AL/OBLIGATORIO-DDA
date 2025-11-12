@@ -15,8 +15,8 @@ public class Bonificacion {
         this.nombre = nombre;
     }
 
-    public double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado) {
-        return tipo.aplicarDescuento(transito, puestoAsignado);
+    public double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado, Propietario propietario) {
+        return tipo.aplicarDescuento(transito, puestoAsignado, propietario);
     }; // delega a tipoBonificacion
 
     public void cambiarTipo(TipoBonificacion tb) {

@@ -33,6 +33,10 @@ public class TransitoDTO {
         return puestoPeajeNombre;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
     public double getTarifaMonto() {
         return tarifaMonto;
     }

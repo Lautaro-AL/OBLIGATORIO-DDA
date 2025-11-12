@@ -31,19 +31,51 @@
     </div>
 
     <table id="tablaBonificaciones" class="section">
-      <label>Bonificaciones</label>
+      <h2>Bonificaciones</h2>
+      <thead>
+        <tr>
+          <th>Bonificación</th>
+          <th>Puesto</th>
+          <th>Fecha Asignada</th>
+        </tr>
+      </thead>
       <tbody></tbody>
     </table>
     <table id="tablaVehiculos">
-      <label>Vehiculos</label>
+      <h2>Vehiculos</h2>
+      <thead>
+        <tr>
+          <th>Matrícula</th>
+          <th>Modelo</th>
+          <th>Color</th>
+          <th>Cant. Tránsitos</th>
+          <th>Monto Total</th>
+        </tr>
+      </thead>
       <tbody></tbody>
     </table>
     <table id="tablaTransitos">
-      <label>Transitos</label>
+      <h2>Tránsitos</h2>
+      <thead>
+        <tr>
+          <th>Puesto</th>
+          <th>Vehículo</th>
+          <th>Categoría</th>
+          <th>Tarifa Base</th>
+          <th>Monto Final</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
       <tbody></tbody>
     </table>
-    <label>Notificaciones</label>
+    <h2>Notificaciones</h2>
     <table id="tablaNotificaciones">
+      <thead>
+        <tr>
+          <th>Fecha/Hora</th>
+          <th>Mensaje</th>
+        </tr>
+      </thead>
       <tbody></tbody>
     </table>
     <div class="notifications">
@@ -56,6 +88,29 @@
   <script>
     const URL_TABLERO = "/tablero";
     const URL_BORRAR_NOTIF = "/tablero/borrarNotificaciones";
+    
+    // Función para formatear fechas
+    function formatearFecha(fecha) {
+      if (!fecha) return "N/A";
+      const date = new Date(fecha);
+      const dia = String(date.getDate()).padStart(2, '0');
+      const mes = String(date.getMonth() + 1).padStart(2, '0');
+      const año = date.getFullYear();
+      const horas = String(date.getHours()).padStart(2, '0');
+      const minutos = String(date.getMinutes()).padStart(2, '0');
+      return `${dia}/${mes}/${año} ${horas}:${minutos}`;
+    }
+    
+    // Función para formatear solo la fecha sin hora
+    function formatearFechaSolo(fecha) {
+      if (!fecha) return "N/A";
+      const date = new Date(fecha);
+      const dia = String(date.getDate()).padStart(2, '0');
+      const mes = String(date.getMonth() + 1).padStart(2, '0');
+      const año = date.getFullYear();
+      return `${dia}/${mes}/${año}`;
+    }
+    
     document.addEventListener("DOMContentLoaded", function () {
       inicializarTablero();
     });
@@ -91,15 +146,11 @@
     </tr>`;
         tbody.innerHTML += fila;
       }
-
     }
 
-
-    function mostrar_transitos(transitos, bonificaciones) {
-      const tbody = document.querySelector("#tablaTransitos tbody");
-      const tbody2 = document.querySelector("#tablaBonificaciones tbody");
+    function mostrar_bonificaciones(bonificaciones) {
+      const tbody = document.querySelector("#tablaBonificaciones tbody");
       tbody.innerHTML = "";
-      tbody2.innerHTML = "";
 
       for (let i = 0; i < bonificaciones.length; i++) {
         const b = bonificaciones[i];
@@ -107,35 +158,45 @@
     <tr>
       <td>${b.bonificacion}</td>
       <td>${b.puesto}</td>
-      <td>${b.fechaAsignada}</td>
+      <td>${formatearFechaSolo(b.fechaAsignada)}</td>
     </tr>`;
-        tbody2.innerHTML += fila;
-      for (let j = 0; j < transitos.length; j++) {
-        const t = transitos[j];
+        tbody.innerHTML += fila;
+      }
+    }
+
+    function mostrar_transitos(transitos) {
+      const tbody = document.querySelector("#tablaTransitos tbody");
+      tbody.innerHTML = "";
+
+      for (let i = 0; i < transitos.length; i++) {
+        const t = transitos[i];
         const fila = `
     <tr>
       <td>${t.puestoPeajeNombre}</td>
       <td>${t.vehiculoMat}</td>
       <td>${t.categoria}</td>
-      <td>${t.tarifaMonto}</td>
-      <td>$ ${b.bonificacion}</td>
-      <td>${t.fecha}</td>
-
+      <td>$ ${t.tarifaMonto}</td>
+      <td>$ ${t.monto}</td>
+      <td>${formatearFecha(t.fecha)}</td>
     </tr>`;
         tbody.innerHTML += fila;
       }
+    }
+
+    function mostrar_notificaciones(notificaciones) {
+      const tbody = document.querySelector("#tablaNotificaciones tbody");
+      tbody.innerHTML = "";
+
+      for (let i = 0; i < notificaciones.length; i++) {
+        const n = notificaciones[i];
+        const fila = `
+    <tr>
+      <td>${formatearFecha(n.fechaHora)}</td>
+      <td>${n.mensaje}</td>
+    </tr>`;
+        tbody.innerHTML += fila;
       }
-
     }
-    function borrarNotificaciones() {
-      limpiarMensaje();
-      submit(URL_BORRAR_NOTIF, {});
-    }
-
-
-
-
-
     function borrarNotificaciones() {
       limpiarMensaje();
       submit(URL_BORRAR_NOTIF, {});

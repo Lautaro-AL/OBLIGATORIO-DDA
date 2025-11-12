@@ -17,7 +17,7 @@ public class DatosPrueba {
         fachada.agregarAdministrador("12345678", "admin.123", "Usuario Administrador");
         // adicionales para pruebas
         fachada.agregarAdministrador("87654321", "pass001", "Luis Fernández");
-        fachada.agregarAdministrador("11223344", "adm!n", "Sofía Ramírez");
+        fachada.agregarAdministrador("11223344", "admin", "Sofía Ramírez");
 
         // ==========================
         // 2) PROPIETARIOS (aprox. 5)
@@ -36,14 +36,12 @@ public class DatosPrueba {
         ArrayList<Propietario> propietarios = fachada.obtenerPropietarios();
 
         // ==========================
-        // 3) PUESTOS DE PEAJE (aprox. 5)
+        // 3) PUESTOS DE PEAJE (3 puestos)
         // campos: nombre, direccion
         // ==========================
         fachada.agregarPuesto("Puesto Centro", "Av. Principal 123");
         fachada.agregarPuesto("Puesto Norte", "Ruta 5 km 12");
         fachada.agregarPuesto("Puesto Sur", "Ruta 1 km 45");
-        fachada.agregarPuesto("Puesto Este", "Camino Real 200");
-        fachada.agregarPuesto("Puesto Oeste", "Boulevard 77");
 
         // ==========================
         // 4) CATEGORÍAS DE VEHÍCULOS (aprox. 5)
@@ -118,32 +116,46 @@ public class DatosPrueba {
         System.out.println(" Propietario 1 " + prop1.getVehiculos());
 
         // ==========================
-        // 7) ASIGNACIONES / BONIFICACIONES
-        // Crear algunas bonificaciones y asignarlas a propietarios para pruebas
+        // 7) ASIGNACIONES / BONIFICACIONES (6 bonificaciones)
+        // Crear bonificaciones y asignarlas a propietarios para pruebas
         // ==========================
-        Bonificacion bTrabajadores = new Trabajadores();
-        Bonificacion bFrecuentes = new Frecuentes();
-        Bonificacion bExonerados = new Exonerados();
+        Bonificacion bTrabajadores1 = new Trabajadores();
+        Bonificacion bTrabajadores2 = new Trabajadores();
+        Bonificacion bFrecuentes1 = new Frecuentes();
+        Bonificacion bFrecuentes2 = new Frecuentes();
+        Bonificacion bExonerados1 = new Exonerados();
+        Bonificacion bExonerados2 = new Exonerados();
 
         ArrayList<PuestoPeaje> puestosAsign = fachada.getPuestosPeaje();
-        if (puestosAsign != null && puestosAsign.size() >= 5) {
-            // Propietario 1 (Usuario Propietario) -> Frecuentes en Puesto Centro
+        if (puestosAsign != null && puestosAsign.size() >= 3) {
+            // Propietario 1 (Carlos López) -> Frecuentes en Puesto Centro
             if (prop1 != null) {
-                prop1.getAsignaciones().add(new Asignacion(bFrecuentes, puestosAsign.get(0),
+                prop1.getAsignaciones().add(new Asignacion(bFrecuentes1, puestosAsign.get(0),
                         new java.sql.Date(System.currentTimeMillis())));
             }
+            // Propietario 1 (Carlos López) -> Trabajadores en Puesto Norte
             if (prop1 != null) {
-                prop1.getAsignaciones().add(new Asignacion(bTrabajadores, puestosAsign.get(1),
+                prop1.getAsignaciones().add(new Asignacion(bTrabajadores1, puestosAsign.get(1),
                         new java.sql.Date(System.currentTimeMillis())));
             }
-            // Propietario 4 (Marcos Varela) -> Trabajadores en Puesto Este
+            // Propietario 3 (Usuario Propietario) -> Frecuentes en Puesto Sur
+            if (prop3 != null) {
+                prop3.getAsignaciones().add(new Asignacion(bFrecuentes2, puestosAsign.get(2),
+                        new java.sql.Date(System.currentTimeMillis())));
+            }
+            // Propietario 4 (Marcos Varela) -> Trabajadores en Puesto Centro
             if (prop4 != null) {
-                prop4.getAsignaciones().add(new Asignacion(bTrabajadores, puestosAsign.get(3),
+                prop4.getAsignaciones().add(new Asignacion(bTrabajadores2, puestosAsign.get(0),
                         new java.sql.Date(System.currentTimeMillis())));
             }
-            // Propietario 5 (Lucía Duarte) -> Exonerados en Puesto Oeste (para test)
+            // Propietario 5 (Lucía Duarte) -> Exonerados en Puesto Norte
             if (prop5 != null) {
-                prop5.getAsignaciones().add(new Asignacion(bExonerados, puestosAsign.get(4),
+                prop5.getAsignaciones().add(new Asignacion(bExonerados1, puestosAsign.get(1),
+                        new java.sql.Date(System.currentTimeMillis())));
+            }
+            // Propietario 2 (Ana Martínez) -> Exonerados en Puesto Sur
+            if (prop2 != null) {
+                prop2.getAsignaciones().add(new Asignacion(bExonerados2, puestosAsign.get(2),
                         new java.sql.Date(System.currentTimeMillis())));
             }
         }
@@ -151,6 +163,10 @@ public class DatosPrueba {
         // Cargar datos de tránsitos de prueba
         System.out.println("\n--- Cargando tránsitos de prueba ---");
         cargarTransitos(fachada, propietarios, categorias);
+
+        // Cargar notificaciones de prueba
+        System.out.println("\n--- Cargando notificaciones de prueba ---");
+        cargarNotificaciones(propietarios);
 
     }
 
@@ -185,7 +201,6 @@ public class DatosPrueba {
         // Obtener referencias necesarias
         ArrayList<PuestoPeaje> puestos = fachada.getPuestosPeaje();
         ArrayList<Tarifa> tarifas = fachada.getTarifas();
-        ArrayList<Vehiculo> vehiculos = fachada.getVehiculos();
 
         if (puestos == null || puestos.isEmpty() || tarifas == null || tarifas.isEmpty()) {
             System.out.println("⚠ No hay puestos de peaje o tarifas cargados");
@@ -310,6 +325,74 @@ public class DatosPrueba {
         for (Propietario p : propietarios) {
             System.out.println(p.getNombreCompleto() + ": $" + p.getSaldoActual());
         }
+    }
+
+    /**
+     * Carga notificaciones de prueba para los propietarios.
+     */
+    private static void cargarNotificaciones(ArrayList<Propietario> propietarios) {
+        if (propietarios == null || propietarios.isEmpty()) {
+            System.out.println("⚠ No hay propietarios para cargar notificaciones");
+            return;
+        }
+
+        int notificacionesCargadas = 0;
+
+        // Propietario 1: Carlos López
+        Propietario p1 = buscarPropietario(propietarios, "b");
+        if (p1 != null) {
+            p1.getNotificaciones()
+                    .add(new Notificacion("Tránsito registrado en Puesto Centro"));
+            p1.getNotificaciones().add(
+                    new Notificacion("Saldo bajo: $2040. Recarga recomendada"));
+            p1.getNotificaciones()
+                    .add(new Notificacion("Bonificación Frecuentes activada"));
+            notificacionesCargadas += 3;
+        }
+
+        // Propietario 2: Ana Martínez
+        Propietario p2 = buscarPropietario(propietarios, "c");
+        if (p2 != null) {
+            p2.getNotificaciones()
+                    .add(new Notificacion("Saldo insuficiente para transitar"));
+            p2.getNotificaciones().add(new Notificacion(
+                    "Bonificación Exonerados disponible en Puesto Sur"));
+            notificacionesCargadas += 2;
+        }
+
+        // Propietario 3: Usuario Propietario
+        Propietario p3 = buscarPropietario(propietarios, "23456789");
+        if (p3 != null) {
+            p3.getNotificaciones()
+                    .add(new Notificacion("Bienvenido! Tu saldo es $2000"));
+            p3.getNotificaciones().add(new Notificacion(
+                    "Tienes descuento Frecuentes en Puesto Sur"));
+            p3.getNotificaciones().add(new Notificacion(
+                    "Tránsito completado: Automóvil ABC123 - $50"));
+            notificacionesCargadas += 3;
+        }
+
+        // Propietario 4: Marcos Varela
+        Propietario p4 = buscarPropietario(propietarios, "34567890");
+        if (p4 != null) {
+            p4.getNotificaciones()
+                    .add(new Notificacion("Descuento Trabajadores: Tránsito $100"));
+            p4.getNotificaciones()
+                    .add(new Notificacion("Viernes: 20% de descuento aplicado"));
+            notificacionesCargadas += 2;
+        }
+
+        // Propietario 5: Lucía Duarte
+        Propietario p5 = buscarPropietario(propietarios, "98765432");
+        if (p5 != null) {
+            p5.getNotificaciones().add(new Notificacion(
+                    "Exoneración registrada en Puesto Norte"));
+            p5.getNotificaciones().add(new Notificacion(
+                    "Estado actual: Habilitado. Saldo: $50"));
+            notificacionesCargadas += 2;
+        }
+
+        System.out.println("✓ Notificaciones cargadas: " + notificacionesCargadas);
     }
 
     /**

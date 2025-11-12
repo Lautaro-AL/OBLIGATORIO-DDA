@@ -27,7 +27,7 @@ public class SistemaTransito {
         if (propietario.getAsignaciones() != null) {
             for (Asignacion a : propietario.getAsignaciones()) {
                 try {
-                    double pago = a.calcularDescuento(transito); // devuelve el monto a pagar según la bonificación
+                    double pago = a.calcularDescuento(transito, propietario); // devuelve el monto a pagar según la bonificación
                     // elegir el menor (mejor descuento)
                     if (pago >= 0 && pago < montoFinal) {
                         montoFinal = pago;
@@ -38,12 +38,12 @@ public class SistemaTransito {
             }
         }
 
-        // Verificar saldo contra el montoFinal
+        // Verificar saldo con el montoFinal
         if (propietario.getSaldoActual() < montoFinal) {
             throw new SistemaTransitoException("Saldo Insuficente");
         }
 
-        // Ajustar monto del tránsito y registrarlo
+        // Ajustar monto del tránsito y registrarlo en el sistema
         transito.setMonto(montoFinal);
         transitos.add(transito);
 

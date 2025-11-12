@@ -7,11 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Admin</title>
     <script src="vistaWeb.js"></script>
+    <style>
+      .error-message {
+        color: #d32f2f;
+        background-color: #ffebee;
+        padding: 12px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        display: none;
+        border-left: 4px solid #d32f2f;
+      }
+      .error-message.show {
+        display: block;
+      }
+      .input-group input:focus {
+        border-color: #1976d2;
+        outline: none;
+      }
+    </style>
   </head>
   <body>
     <script src="utilesVista.js"></script>
     <div class="login-container">
       <h2 id="titulo"></h2>
+      <div id="errorMessage" class="error-message"></div>
       <form
         id="formLogin"
         action="/login"
@@ -41,15 +60,33 @@
 
     function handleLogin(event) {
       event.preventDefault();
+      limpiarMensajeError();
       submit(URL_SUBMIT, serializarFormulario("formLogin"));
+    }
+
+    function limpiarMensajeError() {
+      const errorDiv = document.getElementById("errorMessage");
+      errorDiv.textContent = "";
+      errorDiv.classList.remove("show");
+    }
+
+    function mostrarMensajeError(texto) {
+      const errorDiv = document.getElementById("errorMessage");
+      errorDiv.textContent = texto;
+      errorDiv.classList.add("show");
     }
 
     //La respuesta correcta del submit tiene la url de la vista siguiente
     function mostrar_loginExitoso(urlDestino) {
       window.location.href = urlDestino;
     }
+    
+    function mostrar_error(mensajeError) {
+      mostrarMensajeError(mensajeError);
+    }
+    
     async function excepcionDeAplicacion(text) {
-      await mostrarMensaje(text);
+      mostrarMensajeError(text);
     }
   </script>
 </html>

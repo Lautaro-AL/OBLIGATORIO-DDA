@@ -129,3 +129,35 @@ function procesarResultadosSubmit(listaRespuestas) {
     }
   });
 }
+
+/**
+ * Función por defecto para manejar respuestas de error
+ * Puede ser sobrescrita en la página específica
+ */
+function mostrar_error(mensajeError) {
+  console.error("Error del servidor:", mensajeError);
+  // Por defecto, intentar usar la función específica de la página
+  try {
+    mostrarMensajeError(mensajeError);
+  } catch (e) {
+    alert("Error: " + mensajeError);
+  }
+}
+
+/**
+ * Función genérica para manejar excepciones de aplicación
+ * Intenta procesar la respuesta como JSON si es posible
+ */
+function procesarErrorSubmit(status, text) {
+  try {
+    const json = JSON.parse(text);
+    if (Array.isArray(json)) {
+      procesarResultadosSubmit(json);
+    } else {
+      console.error("Respuesta de error no procesable:", text);
+    }
+  } catch (e) {
+    // Si no es JSON válido, tratar como texto plano
+    mostrar_error(text);
+  }
+}

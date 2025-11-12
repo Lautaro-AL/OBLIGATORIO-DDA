@@ -10,10 +10,8 @@ public class Trabajadores extends Bonificacion {
     }
 
     @Override
-    public double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado) {
-        if (!transito.getPuestoPeaje().getNombre().equals(puestoAsignado.getNombre())) { // verifica el puesto (por
-                                                                                         // nombre, despues ver si se
-                                                                                         // compara con eso)
+    public double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado, Propietario propietario) {
+        if (!transito.getPuestoPeaje().getNombre().equals(puestoAsignado.getNombre())) { 
             return transito.getMonto();
         }
 

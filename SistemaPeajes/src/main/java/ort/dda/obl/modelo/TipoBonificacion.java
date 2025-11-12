@@ -7,12 +7,8 @@ public abstract class TipoBonificacion {
         this.nombre = nombre;
     }
 
-    public abstract double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado); // tiene un puesto asignado
-                                                                                            // ej: Trabajadores: Tienen
-                                                                                            // un 80% de descuento si el
-                                                                                            // tránsito por el !puesto
-                                                                                            // asignado! se realiza en
-                                                                                            // un día de semana.
+    public abstract double aplicarDescuento(Transito transito, PuestoPeaje puestoAsignado, Propietario propietario); 
+                                                                                            
 
     public String getNombre() {
         return nombre;

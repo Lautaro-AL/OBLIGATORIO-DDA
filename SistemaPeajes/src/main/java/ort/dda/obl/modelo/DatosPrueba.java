@@ -24,7 +24,7 @@ public class DatosPrueba {
         // campos: cédula, contraseña, nombre completo, saldo actual, saldo mínimo
         // alerta
         // ==========================
-        fachada.agregarUsuarioPropietario("b", "b", "Carlos López", 200, 500);
+        fachada.agregarUsuarioPropietario("b", "b", "Carlos López", 2090, 500);
         fachada.agregarUsuarioPropietario("c", "c", "Ana Martínez", 0, 0);
         // entrada sugerida en el enunciado
         fachada.agregarUsuarioPropietario("23456789", "prop.123", "Usuario Propietario", 2000, 500);
@@ -117,6 +117,37 @@ public class DatosPrueba {
         System.out.println("  - Vehículos: " + fachada.getTarifas().size() + " tarifas cargadas");
         System.out.println(" Propietario 1 " + prop1.getVehiculos());
 
+        // ==========================
+        // 7) ASIGNACIONES / BONIFICACIONES
+        // Crear algunas bonificaciones y asignarlas a propietarios para pruebas
+        // ==========================
+        Bonificacion bTrabajadores = new Trabajadores();
+        Bonificacion bFrecuentes = new Frecuentes();
+        Bonificacion bExonerados = new Exonerados();
+
+        ArrayList<PuestoPeaje> puestosAsign = fachada.getPuestosPeaje();
+        if (puestosAsign != null && puestosAsign.size() >= 5) {
+            // Propietario 1 (Usuario Propietario) -> Frecuentes en Puesto Centro
+            if (prop1 != null) {
+                prop1.getAsignaciones().add(new Asignacion(bFrecuentes, puestosAsign.get(0),
+                        new java.sql.Date(System.currentTimeMillis())));
+            }
+            if (prop1 != null) {
+                prop1.getAsignaciones().add(new Asignacion(bTrabajadores, puestosAsign.get(1),
+                        new java.sql.Date(System.currentTimeMillis())));
+            }
+            // Propietario 4 (Marcos Varela) -> Trabajadores en Puesto Este
+            if (prop4 != null) {
+                prop4.getAsignaciones().add(new Asignacion(bTrabajadores, puestosAsign.get(3),
+                        new java.sql.Date(System.currentTimeMillis())));
+            }
+            // Propietario 5 (Lucía Duarte) -> Exonerados en Puesto Oeste (para test)
+            if (prop5 != null) {
+                prop5.getAsignaciones().add(new Asignacion(bExonerados, puestosAsign.get(4),
+                        new java.sql.Date(System.currentTimeMillis())));
+            }
+        }
+
         // Cargar datos de tránsitos de prueba
         System.out.println("\n--- Cargando tránsitos de prueba ---");
         cargarTransitos(fachada, propietarios, categorias);
@@ -173,7 +204,8 @@ public class DatosPrueba {
             if (t1 != null) {
                 try {
                     fachada.registrarTransito(v1, puestos.get(0), t1, p1);
-                    System.out.println("✓ Tránsito 1: " + p1.getNombreCompleto() + " pasó por " + puestos.get(0).getNombre());
+                    System.out.println(
+                            "✓ Tránsito 1: " + p1.getNombreCompleto() + " pasó por " + puestos.get(0).getNombre());
                     transitosExitosos++;
                 } catch (Exception e) {
                     System.out.println("✗ Tránsito 1 rechazado: " + e.getMessage());
@@ -190,7 +222,8 @@ public class DatosPrueba {
             if (t2 != null) {
                 try {
                     fachada.registrarTransito(v2, puestos.get(1), t2, p2);
-                    System.out.println("✓ Tránsito 2: " + p2.getNombreCompleto() + " pasó por " + puestos.get(1).getNombre());
+                    System.out.println(
+                            "✓ Tránsito 2: " + p2.getNombreCompleto() + " pasó por " + puestos.get(1).getNombre());
                     transitosExitosos++;
                 } catch (Exception e) {
                     System.out.println("✗ Tránsito rechazado: " + p2.getNombreCompleto()
@@ -209,7 +242,8 @@ public class DatosPrueba {
             if (t3 != null) {
                 try {
                     fachada.registrarTransito(v3, puestos.get(0), t3, p3);
-                    System.out.println("✓ Tránsito 3: " + p3.getNombreCompleto() + " pasó por " + puestos.get(0).getNombre());
+                    System.out.println(
+                            "✓ Tránsito 3: " + p3.getNombreCompleto() + " pasó por " + puestos.get(0).getNombre());
                     transitosExitosos++;
                 } catch (Exception e) {
                     System.out.println("✗ Tránsito 3 rechazado: " + e.getMessage());
@@ -218,7 +252,8 @@ public class DatosPrueba {
 
                 try {
                     fachada.registrarTransito(v3, puestos.get(2), t3, p3);
-                    System.out.println("✓ Tránsito 4: " + p3.getNombreCompleto() + " pasó por " + puestos.get(2).getNombre());
+                    System.out.println(
+                            "✓ Tránsito 4: " + p3.getNombreCompleto() + " pasó por " + puestos.get(2).getNombre());
                     transitosExitosos++;
                 } catch (Exception e) {
                     System.out.println("✗ Tránsito 4 rechazado: " + e.getMessage());
@@ -235,7 +270,8 @@ public class DatosPrueba {
             if (t4 != null) {
                 try {
                     fachada.registrarTransito(v4, puestos.get(3), t4, p4);
-                    System.out.println("✓ Tránsito 5: " + p4.getNombreCompleto() + " pasó por " + puestos.get(3).getNombre());
+                    System.out.println(
+                            "✓ Tránsito 5: " + p4.getNombreCompleto() + " pasó por " + puestos.get(3).getNombre());
                     transitosExitosos++;
                 } catch (Exception e) {
                     System.out.println("✗ Tránsito 5 rechazado: " + e.getMessage());
@@ -244,7 +280,8 @@ public class DatosPrueba {
             }
         }
 
-        // Propietario 5: Lucía Duarte (saldo 50) - Saldo bajo, intenta transitar pero falla
+        // Propietario 5: Lucía Duarte (saldo 50) - Saldo bajo, intenta transitar pero
+        // falla
         Propietario p5 = buscarPropietario(propietarios, "98765432");
         if (p5 != null && p5.getVehiculos() != null && !p5.getVehiculos().isEmpty()) {
             Vehiculo v5 = p5.getVehiculos().get(0);
@@ -252,11 +289,13 @@ public class DatosPrueba {
             if (t5 != null) {
                 try {
                     fachada.registrarTransito(v5, puestos.get(4), t5, p5);
-                    System.out.println("✓ Tránsito 6: " + p5.getNombreCompleto() + " pasó por " + puestos.get(4).getNombre());
+                    System.out.println(
+                            "✓ Tránsito 6: " + p5.getNombreCompleto() + " pasó por " + puestos.get(4).getNombre());
                     transitosExitosos++;
                 } catch (Exception e) {
                     System.out.println("✗ Tránsito rechazado: " + p5.getNombreCompleto()
-                            + " - " + e.getMessage() + " (saldo: " + p5.getSaldoActual() + ", monto: " + t5.getMonto() + ")");
+                            + " - " + e.getMessage() + " (saldo: " + p5.getSaldoActual() + ", monto: " + t5.getMonto()
+                            + ")");
                     transitosFallidos++;
                 }
             }
@@ -265,7 +304,7 @@ public class DatosPrueba {
         System.out.println("\n--- Resumen de tránsitos ---");
         System.out.println("✓ Exitosos: " + transitosExitosos);
         System.out.println("✗ Rechazados: " + transitosFallidos);
-        
+
         // Mostrar saldos finales
         System.out.println("\n--- Saldos finales ---");
         for (Propietario p : propietarios) {

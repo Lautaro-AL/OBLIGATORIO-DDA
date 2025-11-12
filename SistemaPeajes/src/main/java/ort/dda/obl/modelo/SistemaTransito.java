@@ -18,25 +18,41 @@ public class SistemaTransito {
         if (vehiculo == null || puesto == null || tarifa == null || propietario == null) {
             throw new SistemaTransitoException("Error - Campos nulos");
         }
-        double monto = tarifa.getMonto();
+        double montoBase = tarifa.getMonto();
+        // Crear el transito con el monto base (antes de aplicar bonificaciones)
+        Transito transito = new Transito(vehiculo, puesto, tarifa);
+        // Calcular monto final aplicando las asignaciones/bonificaciones del
+        // propietario
+        double montoFinal = montoBase;
+        if (propietario.getAsignaciones() != null) {
+            for (Asignacion a : propietario.getAsignaciones()) {
+                try {
+                    double pago = a.calcularDescuento(transito); // devuelve el monto a pagar según la bonificación
+                    // elegir el menor (mejor descuento)
+                    if (pago >= 0 && pago < montoFinal) {
+                        montoFinal = pago;
+                    }
+                } catch (Exception ex) {
+                    // ignorar asignaciones mal implementadas
+                }
+            }
+        }
 
-        if (propietario.getSaldoActual() < monto) {
+        // Verificar saldo contra el montoFinal
+        if (propietario.getSaldoActual() < montoFinal) {
             throw new SistemaTransitoException("Saldo Insuficente");
         }
 
-        Transito transito = new Transito(vehiculo, puesto, tarifa);
+        // Ajustar monto del tránsito y registrarlo
+        transito.setMonto(montoFinal);
         transitos.add(transito);
 
         if (propietario.getTransitos() == null) {
             propietario.setTransitos(new ArrayList<Transito>());
         }
         propietario.getTransitos().add(transito);
-        propietario.setSaldoActual((propietario.getSaldoActual() - monto));
+        propietario.setSaldoActual((propietario.getSaldoActual() - montoFinal));
     }
-
-    // public void agregarBonificacion(String nombre) {
-    // bonificaciones.add(new Bonificacion(nombre));
-    // }
 
     public ArrayList<PuestoPeaje> getPuestosPeaje() {
         return puestosPeaje;

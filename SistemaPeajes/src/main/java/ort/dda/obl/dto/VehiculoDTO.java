@@ -7,12 +7,16 @@ public class VehiculoDTO {
     private String modelo;
     private String color;
     private String tipoCategoria;
+    private int cantTransitos;
+    private double montoTotal;
 
     public VehiculoDTO(Vehiculo v) {
         this.matricula = v.getMatricula();
         this.modelo = v.getModelo();
         this.color = v.getColor();
         this.tipoCategoria = v.getCategoria().getTipo();
+        this.cantTransitos = v.getPropietario().getCantidadTransitos();
+        this.montoTotal = 0; // hacer luego monto total de esos transitos
     }
 
     public String getMatricula() {
@@ -27,7 +31,15 @@ public class VehiculoDTO {
         return color;
     }
 
-    public String getCategoria() {
+    public String getTipoCategoria() {
         return tipoCategoria;
+    }
+
+    public int getCantTransitos() {
+        return cantTransitos;
+    }
+
+    public double getMontoTotal() {
+        return montoTotal;
     }
 }

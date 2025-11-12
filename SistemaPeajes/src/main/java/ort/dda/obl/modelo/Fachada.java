@@ -2,6 +2,7 @@ package ort.dda.obl.modelo;
 import java.util.ArrayList;
 
 import ort.dda.obl.UsuarioException;
+import ort.dda.obl.SistemaTransitoException;
 
 public class Fachada {
     private SistemaAcceso sAcceso = new SistemaAcceso();
@@ -53,12 +54,9 @@ public class Fachada {
         return sTransito.getPuestosPeaje();
     }
 
-    public void registrarTransito(Vehiculo vehiculo, PuestoPeaje puesto, Tarifa tarifa, Propietario propietario) {
-        try {
-            sTransito.registrarTransito(vehiculo, puesto, tarifa, propietario);
-        } catch (Exception e) {
-            System.err.println("Error al registrar tránsito: " + e.getMessage());
-        }
+    public void registrarTransito(Vehiculo vehiculo, PuestoPeaje puesto, Tarifa tarifa, Propietario propietario)
+            throws SistemaTransitoException {
+        sTransito.registrarTransito(vehiculo, puesto, tarifa, propietario);
     }
 
     // DELEGACIONES SISTEMA VEHICULOS

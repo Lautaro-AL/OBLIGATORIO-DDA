@@ -103,4 +103,8 @@ public class Propietario extends Usuario {
         vehiculos.add(v);
     }
 
+    public int getCantidadTransitos() {
+        return transitos.size();
+    }
+
 }

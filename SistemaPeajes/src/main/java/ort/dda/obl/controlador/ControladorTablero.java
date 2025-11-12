@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import ort.dda.obl.dto.VehiculoDTO;
+import ort.dda.obl.dto.PropietarioDTO;
 import ort.dda.obl.modelo.Propietario;
-import ort.dda.obl.modelo.Vehiculo;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,19 +23,16 @@ public class ControladorTablero {
       return Respuesta.lista(
           new Respuesta("error", "El usuario no puede ingresar al sistema"));
     }
-    List<VehiculoDTO> vehiculos = new ArrayList<>();
-    for (Vehiculo v : prop.getVehiculos()) {
-      vehiculos.add(new VehiculoDTO(v));
-    }
+    PropietarioDTO dto = new PropietarioDTO(prop);
 
     return Respuesta.lista(
-        new Respuesta("nombreCompleto", prop.getNombreCompleto()),
-        new Respuesta("estado", prop.getEstado().getNombre()),
-        new Respuesta("saldoactual", prop.getSaldoActual()),
-        new Respuesta("bonificaciones", prop.getAsignaciones()),
-        new Respuesta("vehiculos", vehiculos),
-        // new Respuesta("transitos", prop.getTransitos()), hacer dto
-        new Respuesta("notificaciones", prop.getNotificaciones()));
+        new Respuesta("nombreCompleto", dto.getNombreCompleto()),
+        new Respuesta("estado", dto.getEstado()),
+        new Respuesta("saldoactual", dto.getSaldoActual()),
+        new Respuesta("bonificaciones", dto.getAsignaciones()),
+        new Respuesta("vehiculos", dto.getVehiculos()),
+        new Respuesta("transitos", dto.getTransitos()),
+        new Respuesta("notificaciones", dto.getNotificaciones()));
   }
 
   @PostMapping("/borrarNotificaciones")

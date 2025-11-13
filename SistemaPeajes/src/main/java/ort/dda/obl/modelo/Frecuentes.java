@@ -16,15 +16,15 @@ public class Frecuentes extends Bonificacion {
         }
 
         Date fechaHoy = transito.getFecha();
-        
+
         // Contar cuántos tránsitos con el mismo vehículo y puesto son de hoy
         int transitosHoy = 0;
         for (Transito tr : propietario.getTransitos()) {
             // Verificar que sea el mismo vehículo y el mismo puesto
             if (tr.getVehiculo().equals(transito.getVehiculo()) &&
-                tr.getPuestoPeaje().equals(puestoAsignado)) {
-                
-                // Comparar si es el mismo día 
+                    tr.getPuestoPeaje().equals(puestoAsignado)) {
+
+                // Comparar si es el mismo día
                 if (fechaHoy.toString().equals(tr.getFecha().toString())) {
                     transitosHoy++;
                 }

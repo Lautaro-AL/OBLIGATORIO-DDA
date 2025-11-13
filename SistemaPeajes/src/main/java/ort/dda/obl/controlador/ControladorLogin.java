@@ -46,7 +46,7 @@ public class ControladorLogin {
         // guardo el admin en la sesionHttp
         sesionHttp.setAttribute("usuarioAdmin", admin);
         return Respuesta.lista(new Respuesta("loginExitoso",
-                "emularTransito.html")); // completar html admin
+                "/admin/emularTransito.html")); // completar html admin
     }
 
     @PostMapping("/logout") // SOlo admin

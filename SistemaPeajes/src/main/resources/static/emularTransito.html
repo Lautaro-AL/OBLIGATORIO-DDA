@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Emular Tránsito</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="vistaWeb.js"></script>
+  </head>
+  <body>
+    <script src="utilesVista.js"></script>
+
+    <div class="container">
+      <div class="header">
+        <h1>Emular tránsito</h1>
+        <button onclick="volverMenu()" class="btn-salir">Volver al menú</button>
+      </div>
+
+      <p class="subtitulo">
+        Seleccione un puesto, verifique sus tarifas, ingrese una matrícula y
+        emule un tránsito.
+      </p>
+
+      <!-- seccion del puesto -->
+      <div class="section">
+        <h2>Puesto</h2>
+        <select id="selectPuesto" onchange="cargarTarifas()">
+          <option value="">-- Seleccione un puesto --</option>
+        </select>
+      </div>
+
+      <!-- seccion de las tarifas del puesto -->
+      <div class="section" id="seccionTarifas" style="display: none">
+        <h2>Tarifas del puesto</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Categoría</th>
+              <th>Monto</th>
+            </tr>
+          </thead>
+          <tbody id="tablaTarifas">
+            <!-- Se carga dinamica esta tabla con la categoria y monto -->
+          </tbody>
+        </table>
+        <p
+          id="mensajeTarifas"
+          style="margin-top: 10px; font-style: italic; color: #666"
+        >
+          Se muestran categoría y monto actuales del puesto seleccionado.
+        </p>
+      </div>
+
+      <!-- seccion de matriculas y fechas -->
+      <div class="section">
+        <h2>Matrícula</h2>
+        <input type="text" id="inputMatricula" placeholder="Ej: ABC1234" />
+
+        <h2 style="margin-top: 20px">Fecha y hora del tránsito</h2>
+        <input type="datetime-local" id="inputFechaHora" />
+
+        <button
+          onclick="emularTransito()"
+          class="btn-primary"
+          style="margin-top: 20px"
+        >
+          Emular tránsito
+        </button>
+      </div>
+
+      <!-- seccion del resultado -->
+      <div class="section" id="seccionResultado" style="display: none">
+        <h2>Resultado</h2>
+        <div class="resultado-info">
+          <p>
+            <strong>Propietario:</strong> <span id="resultPropietario"></span>
+          </p>
+          <p><strong>Categoría:</strong> <span id="resultCategoria"></span></p>
+          <p>
+            <strong>Bonificación:</strong> <span id="resultBonificacion"></span>
+          </p>
+          <p>
+            <strong>Costo del tránsito:</strong> <span id="resultCosto"></span>
+          </p>
+          <p>
+            <strong>Saldo luego del tránsito:</strong>
+            <span id="resultSaldo"></span>
+          </p>
+        </div>
+      </div>
+
+      <script>
+        urlIniciarVista = "/tablero/vistaConectada";
+        urlCierreVista = "/tablero/vistaCerrada";
+        const URL_BASE = "/admin/transito";
+
+        //HACER MENU(SETEARLE EL SSE, CREAR LA SESION DESDE AHI), PASARLE LOS DATOS ACA POR DTO YA SABES ÑERY
+      </script>
+    </div>
+  </body>
+</html>

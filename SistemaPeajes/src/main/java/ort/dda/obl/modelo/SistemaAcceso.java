@@ -49,8 +49,4 @@ public class SistemaAcceso {
         throw new UsuarioException("Usuario o contraseña incorrectos");
     }
 
-    public void logout(Administrador s) {
-        administradores.remove(s);
-
-    }
 }

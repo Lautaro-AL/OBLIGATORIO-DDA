@@ -43,10 +43,6 @@ public class Fachada extends Observable {
         return sAcceso.loginAdministrador(cedula, password);
     }
 
-    public void logout(Administrador s) {
-        sAcceso.logout(s);
-    }
-
     public void borrarNotificacionesPropietario(Propietario propietario) {
         sAcceso.borrarNotificacionesPropietario(propietario);
     }

@@ -14,7 +14,7 @@ import ort.dda.obl.modelo.Propietario;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/acceso")
 public class ControladorLogin {
 
     @PostMapping("/loginPropietario")
@@ -45,18 +45,16 @@ public class ControladorLogin {
 
         // guardo el admin en la sesionHttp
         sesionHttp.setAttribute("usuarioAdmin", admin);
-        return Respuesta.lista(new Respuesta("loginExitoso",
-                "/admin/emularTransito.html")); // completar html admin
+        return Respuesta.lista(new Respuesta("loginExitoso", "menu-admin.html")); // completar html admin
     }
 
     @PostMapping("/logout") // SOlo admin
     public List<Respuesta> logoutAdmin(HttpSession sesionHttp) throws UsuarioException {
-        Administrador sesion = (Administrador) sesionHttp.getAttribute("administrador");
+        Administrador sesion = (Administrador) sesionHttp.getAttribute("usuarioAdmin");
         if (sesion != null) {
-            Fachada.getInstancia().logout(sesion);
-            sesionHttp.removeAttribute("usuarioPropietario");
+            sesionHttp.removeAttribute("usuarioAdmin");
         }
-        return Respuesta.lista(new Respuesta("paginaLogin", "login.html"));
+        return Respuesta.lista(new Respuesta("paginaLogin", "login-admin.html"));
 
     }
 }

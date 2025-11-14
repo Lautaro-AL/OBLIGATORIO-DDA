@@ -176,6 +176,13 @@
     function borrarNotificaciones() {
       submit(URL_BORRAR_NOTIF,{});
     }
+
+          function procesarErrorSubmit(status, text) {
+        if (status == 400) {
+          //El usuario no ha iniciado sesion
+          window.location.href = "login-propietario.html";
+        }
+      }
   </script>
 </body>
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Emular Tránsito</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="emularTransito.css" />
     <script src="vistaWeb.js"></script>
   </head>
   <body>
@@ -90,10 +90,15 @@
       </div>
 
       <script>
-        urlIniciarVista = "/tablero/vistaConectada";
-        urlCierreVista = "/tablero/vistaCerrada";
-        const URL_BASE = "/admin/transito";
+        urlIniciarVista = "/admin/transito/vistaConectada";
+        urlCierreVista = "/admin/transito/vistaCerrada";
 
+        function procesarErrorSubmit(status, text) {
+          if (status == 400) {
+            //El usuario no ha iniciado sesion
+            window.location.href = "login-admin.html";
+          }
+        }
         //HACER MENU(SETEARLE EL SSE, CREAR LA SESION DESDE AHI), PASARLE LOS DATOS ACA POR DTO YA SABES ÑERY
       </script>
     </div>

@@ -36,6 +36,36 @@ public class DatosPrueba {
         ArrayList<Propietario> propietarios = fachada.obtenerPropietarios();
 
         // ==========================
+        // Ajustar estados de propietarios (para pruebas)
+        // - Carlos López (b): Habilitado
+        // - Ana Martínez (c): Deshabilitado
+        // - Usuario Propietario (23456789): Habilitado
+        // - Marcos Varela (34567890): Penalizado
+        // - Lucía Duarte (98765432): Suspendido
+        // ==========================
+        Propietario tmp;
+        tmp = buscarPropietario(propietarios, "b");
+        if (tmp != null) {
+            tmp.cambiarEstado(new EstadoHabilitado(tmp));
+        }
+        tmp = buscarPropietario(propietarios, "c");
+        if (tmp != null) {
+            tmp.cambiarEstado(new EstadoDeshabilitado(tmp));
+        }
+        tmp = buscarPropietario(propietarios, "23456789");
+        if (tmp != null) {
+            tmp.cambiarEstado(new EstadoHabilitado(tmp));
+        }
+        tmp = buscarPropietario(propietarios, "34567890");
+        if (tmp != null) {
+            tmp.cambiarEstado(new EstadoPenalizado(tmp));
+        }
+        tmp = buscarPropietario(propietarios, "98765432");
+        if (tmp != null) {
+            tmp.cambiarEstado(new EstadoSuspendido(tmp));
+        }
+
+        // ==========================
         // 3) PUESTOS DE PEAJE (3 puestos)
         // campos: nombre, direccion
         // ==========================
@@ -320,10 +350,11 @@ public class DatosPrueba {
         System.out.println("✓ Exitosos: " + transitosExitosos);
         System.out.println("✗ Rechazados: " + transitosFallidos);
 
-        // Mostrar saldos finales
+        // Mostrar saldos finales (incluye estado del propietario)
         System.out.println("\n--- Saldos finales ---");
         for (Propietario p : propietarios) {
-            System.out.println(p.getNombreCompleto() + ": $" + p.getSaldoActual());
+            String estadoNombre = p.getEstado() != null ? p.getEstado().getNombre() : "(sin estado)";
+            System.out.println(p.getNombreCompleto() + " (" + estadoNombre + "): $" + p.getSaldoActual());
         }
     }
 
@@ -386,9 +417,10 @@ public class DatosPrueba {
         Propietario p5 = buscarPropietario(propietarios, "98765432");
         if (p5 != null) {
             p5.getNotificaciones().add(new Notificacion(
-                    "Exoneración registrada en Puesto Norte"));
+                "Exoneración registrada en Puesto Norte"));
+            // Actualizar mensaje para reflejar el estado de prueba (Suspendido)
             p5.getNotificaciones().add(new Notificacion(
-                    "Estado actual: Habilitado. Saldo: $50"));
+                "Estado actual: Suspendido. Saldo: $50"));
             notificacionesCargadas += 2;
         }
 

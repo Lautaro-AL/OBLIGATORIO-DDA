@@ -14,8 +14,8 @@ public class Propietario extends Usuario {
     private ArrayList<Asignacion> asignaciones = new ArrayList<>();
     private ArrayList<Vehiculo> vehiculos = new ArrayList<>();
     private ArrayList<Notificacion> notificaciones = new ArrayList<>();
-    private EstadoPropietario estado = EstadoPropietario.HABILITADO; // por default esta habilitado el estado del
-                                                                     // propietario
+    private EstadoPropietario estado = new EstadoHabilitado(this);// por default esta habilitado el estado del
+                                                                  // propietario
 
     public Propietario(String cedula, String password, String nombreCompleto, double saldoActual, int saldoAlerta,
             ArrayList<Transito> transitos, ArrayList<Vehiculo> vehiculos, ArrayList<Notificacion> notificaciones) {
@@ -25,10 +25,6 @@ public class Propietario extends Usuario {
         this.transitos = transitos;
         this.vehiculos = vehiculos;
         this.notificaciones = notificaciones;
-    }
-
-    public EstadoPropietario getEstado() {
-        return estado;
     }
 
     public ArrayList<Vehiculo> getVehiculos() {
@@ -45,26 +41,6 @@ public class Propietario extends Usuario {
 
     public void setNotificaciones(ArrayList<Notificacion> notificaciones) {
         this.notificaciones = notificaciones;
-    }
-
-    public void setEstado(EstadoPropietario estado) {
-        this.estado = estado;
-    }
-
-    public boolean puedeIngresar() {
-        return estado.puedeIngresar();
-    }
-
-    public boolean puedeTransitar() {
-        return estado.puedeTransitar();
-    }
-
-    public boolean puedeRecibirBonificaciones() {
-        return estado.puedeRecibirBonificaciones();
-    }
-
-    public boolean recibeNotificaciones() {
-        return estado.recibeNotificaciones();
     }
 
     public double getSaldoActual() {
@@ -118,6 +94,30 @@ public class Propietario extends Usuario {
         } else {
             this.notificaciones = new ArrayList<>();
         }
+    }
+
+    protected void cambiarEstado(EstadoPropietario ep) {
+        estado = ep;
+    }
+
+    public EstadoPropietario getEstado() {
+        return estado;
+    }
+
+    public boolean puedeIngresar() {
+        return estado != null && estado.puedeIngresar();
+    }
+
+    public boolean puedeTransitar() {
+        return estado != null && estado.puedeTransitar();
+    }
+
+    public boolean puedeRecibirBonificaciones() {
+        return estado != null && estado.puedeRecibirBonificaciones();
+    }
+
+    public boolean recibeNotificaciones() {
+        return estado != null && estado.recibeNotificaciones();
     }
 
 }
